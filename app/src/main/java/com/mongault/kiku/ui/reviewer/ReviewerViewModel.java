@@ -117,18 +117,10 @@ public class ReviewerViewModel extends ViewModel {
         return dueCardsQueue.getValue().size();
     }
 
-    public void loadAudio() {
-        cardRepository.getAudio(reviewedCard.getValue().getJapanese(), new RepositoryCallback<MediaItem>() {
-            @Override
-            public void onSuccess(MediaItem data) {
-                audioStream.setValue(data);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                error.setValue(errorMessage);
-            }
-        });
+    public String getAudioUrl() {
+        Card card = reviewedCard.getValue();
+        if (card == null) return null;
+        return cardRepository.getAudioUrl(card.getJapanese());
     }
 
     public LiveData<Long> getDeckId() { return deckId; }

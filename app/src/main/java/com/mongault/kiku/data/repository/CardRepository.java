@@ -120,7 +120,11 @@ public class CardRepository {
         });
     }
 
-    public void getAudio(String japaneseText, RepositoryCallback<MediaItem> callback) {
+    public String getAudioUrl(String japaneseText) {
+        return ApiClient.getAudioUrl(japaneseText);
+    }
+
+    public void getAudioByCardId(String japaneseText, RepositoryCallback<MediaItem> callback) {
         apiService.getAudio(japaneseText).enqueue(new Callback<MediaItem>() {
             @Override
             public void onResponse(Call<MediaItem> call, Response<MediaItem> response) {

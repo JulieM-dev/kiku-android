@@ -55,5 +55,8 @@ public interface ApiService {
     // Audio
 
     @GET("api/audio")
-    Call<MediaItem> getAudio(@Body String japaneseText);
+    Call<MediaItem> getAudio(@Query("japaneseText") String japaneseText);
+
+    @GET("api/audio/{cardID}")
+    Call<MediaItem> getAudioByDeckId(@Path("cardId") long cardId);
 }

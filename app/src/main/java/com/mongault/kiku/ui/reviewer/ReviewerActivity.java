@@ -108,13 +108,11 @@ public class ReviewerActivity extends AppCompatActivity {
     }
 
     private void playAudio() {
-        Card card = viewModel.getReviewedCard().getValue();
-        if (card == null) return;
-
-        player.setMediaItem(viewModel.getAudio().getValue());
+        String url = viewModel.getAudioUrl();
+        if (url == null) return;
+        player.setMediaItem(MediaItem.fromUri(url));
         player.prepare();
         player.play();
-
     }
 
     private void setupButtons() {

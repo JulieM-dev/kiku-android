@@ -1,5 +1,8 @@
 package com.mongault.kiku.data.remote;
 
+import android.net.Uri;
+import android.util.Log;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -29,5 +32,11 @@ public class ApiClient {
             instance = retrofit.create(ApiService.class);
         }
         return instance;
+    }
+
+    public static String getAudioUrl(String japaneseText) {
+        String url = BASE_URL + "api/audio/text/" + Uri.encode(japaneseText);
+        Log.d("ApiClient", "Audio URL: " + url);
+        return url;
     }
 }
