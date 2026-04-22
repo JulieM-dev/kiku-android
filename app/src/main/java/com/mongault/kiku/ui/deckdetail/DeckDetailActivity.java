@@ -50,7 +50,7 @@ public class DeckDetailActivity extends AppCompatActivity {
         binding.buttonOralComprehension.setOnClickListener(v ->
                 startReview(ReviewMode.COMPREHENSION));
 
-        binding.buttonOralComprehension.setOnClickListener(v ->
+        binding.buttonPronunciation.setOnClickListener(v ->
                 startReview(ReviewMode.PRONUNCIATION));
 
         binding.buttonExpression.setOnClickListener(v ->

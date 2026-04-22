@@ -1,5 +1,7 @@
 package com.mongault.kiku.data.repository;
 
+import androidx.media3.common.MediaItem;
+
 import com.mongault.kiku.data.remote.ApiClient;
 import com.mongault.kiku.data.remote.ApiService;
 import com.mongault.kiku.model.Card;
@@ -113,6 +115,24 @@ public class CardRepository {
 
             @Override
             public void onFailure(Call<CardReview> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    public void getAudio(String japaneseText, RepositoryCallback<MediaItem> callback) {
+        apiService.getAudio(japaneseText).enqueue(new Callback<MediaItem>() {
+            @Override
+            public void onResponse(Call<MediaItem> call, Response<MediaItem> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MediaItem> call, Throwable t) {
                 callback.onError(t.getMessage());
             }
         });
