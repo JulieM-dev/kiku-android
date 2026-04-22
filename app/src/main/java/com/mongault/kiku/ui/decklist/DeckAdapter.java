@@ -59,14 +59,14 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
         public DeckViewHolder(@NonNull View itemView) {
             super(itemView);
             textDeckName = itemView.findViewById(R.id.textDeckName);
-            textDeckDescription = itemView.findViewById(R.id.textDeckDescription);
+            textDeckDescription = itemView.findViewById(R.id.textTitle);
             textCardCount = itemView.findViewById(R.id.textCardCount);
         }
 
         public void bind(Deck deck) {
             textDeckName.setText(deck.getName());
             textDeckDescription.setText(deck.getDescription());
-            textCardCount.setText(deck.getCards().size());
+            textCardCount.setText(deck.getCards().size() + " cards");
             itemView.setOnClickListener(v -> listener.onDeckClick(deck));
         }
     }

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="100dp"
+    android:paddingLeft="28dp"
+    android:paddingRight="28dp"
+    android:paddingBottom="28dp">
+
+
+    <TextView
+        android:id="@+id/textDeckName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Deck"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Create a new card"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="?attr/colorOutline" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonVoiceTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:padding="16dp"
+        android:text="Voice test" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputJapanese"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Japanese text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputTranslated"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Translated text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputKana"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Kana" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputRomaji"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Romaji" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
+
+        <Spinner
+            android:id="@+id/spinnerFormalityLevel"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:entries="@array/spinnerFormalityLevel" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonExit"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:text="Exit" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSaveCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:text="Save card" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -41,7 +41,7 @@ public interface ApiService {
     Call<Card> getCard(@Path("id") long id);
 
     @POST("api/cards")
-    Call<Card> createCard(@Body Card card);
+    Call<Card> createCard(@Path("deckId") long deckId, @Body Card card);
 
     //----------------------------------------------------------------------------------------------
     // Submit a review answer

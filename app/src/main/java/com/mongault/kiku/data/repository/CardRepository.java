@@ -83,7 +83,7 @@ public class CardRepository {
     }
 
     public void createCard(long deckId, Card card, RepositoryCallback<Card> callback) {
-        apiService.createCard(card).enqueue(new Callback<Card>() {
+        apiService.createCard(deckId, card).enqueue(new Callback<Card>() {
             @Override
             public void onResponse(Call<Card> call, Response<Card> response) {
                 if (response.isSuccessful() && response.body() != null) {
