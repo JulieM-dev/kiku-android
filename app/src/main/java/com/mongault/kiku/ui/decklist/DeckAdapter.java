@@ -66,7 +66,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
         public void bind(Deck deck) {
             textDeckName.setText(deck.getName());
             textDeckDescription.setText(deck.getDescription());
-            textCardCount.setText(deck.getCards().size());
+            textCardCount.setText(deck.getCards().size() + " cards");
             itemView.setOnClickListener(v -> listener.onDeckClick(deck));
         }
     }
