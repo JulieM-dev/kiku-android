@@ -42,7 +42,7 @@ public interface ApiService {
     @GET("api/cards/{id}")
     Call<Card> getCard(@Path("id") long id);
 
-    @POST("api/cards")
+    @POST("api/cards/create/{deckId}")
     Call<Card> createCard(@Path("deckId") long deckId, @Body Card card);
 
     //----------------------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 package com.mongault.kiku.ui.reviewer;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -110,6 +111,7 @@ public class ReviewerActivity extends AppCompatActivity {
     private void playAudio() {
         String url = viewModel.getAudioUrl();
         if (url == null) return;
+        Log.d("reviewerActivity", "playAudioUrl: " + url);
         player.setMediaItem(MediaItem.fromUri(url));
         player.prepare();
         player.play();

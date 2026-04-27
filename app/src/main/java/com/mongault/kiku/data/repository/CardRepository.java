@@ -1,5 +1,7 @@
 package com.mongault.kiku.data.repository;
 
+import android.util.Log;
+
 import androidx.media3.common.MediaItem;
 
 import com.mongault.kiku.data.remote.ApiClient;
@@ -85,11 +87,13 @@ public class CardRepository {
     }
 
     public void createCard(long deckId, Card card, RepositoryCallback<Card> callback) {
+        Log.d("CardRepository", "createCard: trying on deck " + deckId + " to send : " + card.toString() );
         apiService.createCard(deckId, card).enqueue(new Callback<Card>() {
             @Override
             public void onResponse(Call<Card> call, Response<Card> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
+                    Log.d("CardRepository", "createCard: success creating on " + deckId + " the card : " + card.toString() );
                 } else {
                     callback.onError("Error: " + response.code());
                 }
