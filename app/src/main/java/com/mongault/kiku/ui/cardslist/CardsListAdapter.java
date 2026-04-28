@@ -9,65 +9,69 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mongault.kiku.R;
-import com.mongault.kiku.model.Deck;
+import com.mongault.kiku.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardsListAdapter extends RecyclerView.Adapter<CardsListAdapter.DeckViewHolder> {
+public class CardsListAdapter extends RecyclerView.Adapter<CardsListAdapter.CardViewHolder> {
 
-    public interface OnDeckClickListener {
-        void onDeckClick(Deck deck);
+    public interface OnCardClickListener {
+        void onCardClick(Card card);
     }
 
-    private List<Deck> decks = new ArrayList<>();
-    private final OnDeckClickListener listener;
+    private List<Card> cards = new ArrayList<>();
+    private final OnCardClickListener listener;
 
-    public CardsListAdapter(OnDeckClickListener listener) {
+    public CardsListAdapter(OnCardClickListener listener) {
         this.listener = listener;
     }
 
-    public void setDecks(List<Deck> decks) {
-        this.decks = decks;
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public DeckViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_deck, parent, false);
-        return new DeckViewHolder(view);
+                .inflate(R.layout.item_card, parent, false);
+        return new CardViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DeckViewHolder holder, int position) {
-        holder.bind(decks.get(position));
+    public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
+        holder.bind(cards.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return decks.size();
+        return cards.size();
     }
 
-    class DeckViewHolder extends RecyclerView.ViewHolder {
+    class CardViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView textDeckName;
-        private final TextView textDeckDescription;
-        private final TextView textCardCount;
+        private final TextView textJapanese;
+        private final TextView textTranslated;
+        private final TextView textKanas;
+        private final TextView textRomaji;
+        private final TextView textFormality;
 
-        public DeckViewHolder(@NonNull View itemView) {
+        public CardViewHolder(@NonNull View itemView) {
             super(itemView);
-            textDeckName = itemView.findViewById(R.id.textDeckName);
-            textDeckDescription = itemView.findViewById(R.id.textTitle);
-            textCardCount = itemView.findViewById(R.id.textCardCount);
+            textJapanese = itemView.findViewById(R.id.textJapanese);
+            textTranslated = itemView.findViewById(R.id.textTranslated);
+            textKanas = itemView.findViewById(R.id.textKanas);
+            textRomaji = itemView.findViewById(R.id.textRomaji);
+            textFormality = itemView.findViewById(R.id.textFormalityLevel);
         }
 
-        public void bind(Deck deck) {
-            textDeckName.setText(deck.getName());
-            textDeckDescription.setText(deck.getDescription());
-            textCardCount.setText(deck.getCards().size() + " cards");
-            itemView.setOnClickListener(v -> listener.onDeckClick(deck));
+        public void bind(Card card) {
+            textJapanese.setText(card.getJapanese());
+            textTranslated.setText(card.getTranslation());
+            textKanas.setText(card.getKana());
+            itemView.setOnClickListener(v -> listener.onCardClick(card));
         }
     }
 }

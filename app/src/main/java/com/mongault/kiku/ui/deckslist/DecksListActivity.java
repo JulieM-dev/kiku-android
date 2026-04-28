@@ -6,19 +6,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.mongault.kiku.databinding.ActivityDeckListBinding;
+import com.mongault.kiku.databinding.ActivityDecksListBinding;
 import com.mongault.kiku.ui.deckdetail.DeckDetailActivity;
 
 public class DecksListActivity extends AppCompatActivity {
 
-    private ActivityDeckListBinding binding;
+    private ActivityDecksListBinding binding;
     private DecksListViewModel viewModel;
     private DecksListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDeckListBinding.inflate(getLayoutInflater());
+        binding = ActivityDecksListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setTitle("My Decks");
 

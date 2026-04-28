@@ -6,21 +6,22 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.mongault.kiku.databinding.ActivityDeckListBinding;
-import com.mongault.kiku.ui.deckdetail.DeckDetailActivity;
+
+import com.mongault.kiku.databinding.ActivityCardsListBinding;
+import com.mongault.kiku.ui.cardeditor.CardEditorActivity;
 
 public class CardsListActivity extends AppCompatActivity {
 
-    private ActivityDeckListBinding binding;
+    private ActivityCardsListBinding binding;
     private CardsListViewModel viewModel;
     private CardsListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDeckListBinding.inflate(getLayoutInflater());
+        binding = ActivityCardsListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setTitle("My Decks");
+        setTitle("My Cards");
 
         setupRecyclerView();
         setupViewModel();
@@ -28,10 +29,9 @@ public class CardsListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new CardsListAdapter(deck -> {
-            Intent intent = new Intent(this, DeckDetailActivity.class);
-            intent.putExtra("deckId", deck.getId());
-            intent.putExtra("deckName", deck.getName());
+        adapter = new CardsListAdapter(card -> {
+            Intent intent = new Intent(this, CardEditorActivity.class);
+            intent.putExtra("cardId", card.getId());
             startActivity(intent);
         });
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -41,8 +41,8 @@ public class CardsListActivity extends AppCompatActivity {
     private void setupViewModel() {
         viewModel = new ViewModelProvider(this).get(CardsListViewModel.class);
 
-        viewModel.getDecks().observe(this, decks -> {
-            adapter.setDecks(decks);
+        viewModel.getCards().observe(this, cards -> {
+            adapter.setCards(cards);
         });
 
         viewModel.getIsLoading().observe(this, isLoading -> {
@@ -55,7 +55,7 @@ public class CardsListActivity extends AppCompatActivity {
     }
 
     private void setupSwipeRefresh() {
-        binding.swipeRefresh.setOnRefreshListener(() -> viewModel.loadDecks());
+        binding.swipeRefresh.setOnRefreshListener(() -> viewModel.loadCards());
     }
 
     @Override
