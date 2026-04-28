@@ -1,4 +1,4 @@
-package com.mongault.kiku.ui.decklist;
+package com.mongault.kiku.ui.cardslist;
 
 import com.mongault.kiku.data.repository.DeckRepository;
 import com.mongault.kiku.data.repository.RepositoryCallback;
@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-public class DeckListViewModel extends ViewModel {
+public class CardsListViewModel extends ViewModel {
 
     private final DeckRepository deckRepository;
 
@@ -18,7 +18,7 @@ public class DeckListViewModel extends ViewModel {
     private final MutableLiveData<String> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    public DeckListViewModel() {
+    public CardsListViewModel() {
         this.deckRepository = new DeckRepository();
         loadDecks();
     }

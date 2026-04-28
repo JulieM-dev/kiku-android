@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Kiku"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.decklist.DeckListActivity"
+            android:name=".ui.deckslist.DecksListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

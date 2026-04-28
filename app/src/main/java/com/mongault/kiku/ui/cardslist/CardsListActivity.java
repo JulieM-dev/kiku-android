@@ -1,4 +1,4 @@
-package com.mongault.kiku.ui.decklist;
+package com.mongault.kiku.ui.cardslist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.mongault.kiku.databinding.ActivityDeckListBinding;
 import com.mongault.kiku.ui.deckdetail.DeckDetailActivity;
 
-public class DeckListActivity extends AppCompatActivity {
+public class CardsListActivity extends AppCompatActivity {
 
     private ActivityDeckListBinding binding;
-    private DeckListViewModel viewModel;
-    private DeckAdapter adapter;
+    private CardsListViewModel viewModel;
+    private CardsListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class DeckListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new DeckAdapter(deck -> {
+        adapter = new CardsListAdapter(deck -> {
             Intent intent = new Intent(this, DeckDetailActivity.class);
             intent.putExtra("deckId", deck.getId());
             intent.putExtra("deckName", deck.getName());
@@ -39,7 +39,7 @@ public class DeckListActivity extends AppCompatActivity {
     }
 
     private void setupViewModel() {
-        viewModel = new ViewModelProvider(this).get(DeckListViewModel.class);
+        viewModel = new ViewModelProvider(this).get(CardsListViewModel.class);
 
         viewModel.getDecks().observe(this, decks -> {
             adapter.setDecks(decks);
