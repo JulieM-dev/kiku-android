@@ -3,10 +3,15 @@ package com.mongault.kiku.ui.cardeditor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.PlaybackException;
+import androidx.media3.common.Player;
+import androidx.media3.exoplayer.ExoPlayer;
 
 import com.mongault.kiku.databinding.ActivityCardEditorBinding;
 import com.mongault.kiku.model.Card;
@@ -19,6 +24,7 @@ public class CardEditorActivity extends AppCompatActivity {
 
     private ActivityCardEditorBinding binding;
     private CardEditorViewModel viewModel;
+    private ExoPlayer player;
     private long deckId;
 
     @Override
@@ -32,6 +38,7 @@ public class CardEditorActivity extends AppCompatActivity {
         setTitle(deckName);
 
         setupViewModel();
+        setupPlayer();
         clearFields();
         setupButtons();
         setupSpinner();
@@ -48,7 +55,36 @@ public class CardEditorActivity extends AppCompatActivity {
             Toast.makeText(this, error, Toast.LENGTH_LONG).show();
         });
 
+        viewModel.getIsVoiceLoading().observe(this, isVoiceLoading -> {
+            binding.buttonVoiceTest.setEnabled(!isVoiceLoading);
+        });
+
         viewModel.loadDeck(deckId);
+    }
+
+    private void setupPlayer() {
+        player = new ExoPlayer.Builder(this).build();
+
+        player.addListener(new Player.Listener() {
+            @Override
+            public void onPlaybackStateChanged(int state) {
+                switch (state) {
+                    case Player.STATE_BUFFERING:
+                        viewModel.setIsVoiceLoading(true);
+                        break;
+                    case Player.STATE_READY:
+                    case Player.STATE_ENDED:
+                    case Player.STATE_IDLE:
+                        viewModel.setIsVoiceLoading(false);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPlayerError(PlaybackException error) {
+                viewModel.setIsVoiceLoading(false);
+            }
+        });
     }
 
     private void clearFields() {
@@ -69,8 +105,7 @@ public class CardEditorActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
-        binding.buttonVoiceTest.setOnClickListener(v ->
-                startReview(ReviewMode.PRONUNCIATION));
+        binding.buttonVoiceTest.setOnClickListener(v -> playAudio());
 
         binding.buttonExit.setOnClickListener(v -> finish());
 
@@ -80,13 +115,6 @@ public class CardEditorActivity extends AppCompatActivity {
 
     private void setupSpinner() {
         binding.spinnerFormalityLevel.setSelection(0);
-    }
-
-    private void startReview(ReviewMode mode) {
-        Intent intent = new Intent(this, ReviewerActivity.class);
-        intent.putExtra("deckId", deckId);
-        intent.putExtra("mode", mode.name());
-        startActivity(intent);
     }
 
     private void createCard() {
@@ -100,9 +128,20 @@ public class CardEditorActivity extends AppCompatActivity {
         clearFields();
     }
 
+    private void playAudio() {
+        String url = viewModel.getAudioUrl(binding.textInputJapanese.getText().toString());
+        if (url == null) return;
+        Log.d("reviewerActivity", "playAudioUrl: " + url);
+        player.setMediaItem(MediaItem.fromUri(url));
+        player.prepare();
+        player.play();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        player.release();
+        player = null;
         binding = null;
     }
 }

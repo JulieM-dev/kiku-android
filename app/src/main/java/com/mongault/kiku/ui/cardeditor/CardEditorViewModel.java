@@ -31,6 +31,8 @@ public class CardEditorViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isCardSaved = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isVoiceLoading = new MutableLiveData<>();
+
 
 
     public CardEditorViewModel() {
@@ -76,11 +78,17 @@ public class CardEditorViewModel extends ViewModel {
     }
 
 
-
+    public String getAudioUrl(String textToSpeech) {
+        if (textToSpeech == null) return null;
+        return cardRepository.getAudioUrl(textToSpeech);
+    }
 
 
     public LiveData<Card> getCard() { return card; }
     public LiveData<Deck> getDeck() { return deck; }
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getIsLoading() { return isLoading; }
+    public LiveData<Boolean> getIsVoiceLoading() { return isVoiceLoading; }
+    public void setIsVoiceLoading(Boolean value) { isVoiceLoading.setValue(value); }
+
 }
