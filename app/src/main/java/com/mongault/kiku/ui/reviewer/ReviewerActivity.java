@@ -1,6 +1,7 @@
 package com.mongault.kiku.ui.reviewer;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -103,22 +104,17 @@ public class ReviewerActivity extends AppCompatActivity {
                 break;
         }
 
-        // Always populate answer fields (hidden until revealed)
         binding.textRomaji.setText(card.getRomaji());
         binding.textTranslation.setText(card.getTranslation());
     }
 
     private void playAudio() {
-        // TODO: replace with real audio URL when backend endpoint is ready
-        // "http://10.0.2.2:8080/api/audio/" + currentCard.getId()
-        Card card = viewModel.getReviewedCard().getValue();
-        if (card == null) return;
-
-        String audioUrl = "http://192.168.1.77:8080/api/audio/" + card.getId();
-        player.setMediaItem(MediaItem.fromUri(audioUrl));
+        String url = viewModel.getAudioUrl();
+        if (url == null) return;
+        Log.d("reviewerActivity", "playAudioUrl: " + url);
+        player.setMediaItem(MediaItem.fromUri(url));
         player.prepare();
         player.play();
-
     }
 
     private void setupButtons() {

@@ -1,5 +1,7 @@
 package com.mongault.kiku.data.remote;
 
+import androidx.media3.common.MediaItem;
+
 import com.mongault.kiku.model.Card;
 import com.mongault.kiku.model.CardReview;
 import com.mongault.kiku.model.Deck;
@@ -40,8 +42,8 @@ public interface ApiService {
     @GET("api/cards/{id}")
     Call<Card> getCard(@Path("id") long id);
 
-    @POST("api/cards")
-    Call<Card> createCard(@Body Card card);
+    @POST("api/cards/create/{deckId}")
+    Call<Card> createCard(@Path("deckId") long deckId, @Body Card card);
 
     //----------------------------------------------------------------------------------------------
     // Submit a review answer
@@ -50,4 +52,11 @@ public interface ApiService {
     Call<CardReview> submitAnswer(@Path("cardId") long cardId, @Body SubmitAnswer submitAnswer);
 
     //----------------------------------------------------------------------------------------------
+    // Audio
+
+    @GET("api/audio")
+    Call<MediaItem> getAudio(@Query("japaneseText") String japaneseText);
+
+    @GET("api/audio/{cardID}")
+    Call<MediaItem> getAudioByDeckId(@Path("cardId") long cardId);
 }

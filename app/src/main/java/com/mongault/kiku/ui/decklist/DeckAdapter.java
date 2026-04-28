@@ -59,7 +59,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
         public DeckViewHolder(@NonNull View itemView) {
             super(itemView);
             textDeckName = itemView.findViewById(R.id.textDeckName);
-            textDeckDescription = itemView.findViewById(R.id.textDeckDescription);
+            textDeckDescription = itemView.findViewById(R.id.textTitle);
             textCardCount = itemView.findViewById(R.id.textCardCount);
         }
 

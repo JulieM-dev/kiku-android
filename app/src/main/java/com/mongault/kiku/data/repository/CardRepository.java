@@ -1,5 +1,9 @@
 package com.mongault.kiku.data.repository;
 
+import android.util.Log;
+
+import androidx.media3.common.MediaItem;
+
 import com.mongault.kiku.data.remote.ApiClient;
 import com.mongault.kiku.data.remote.ApiService;
 import com.mongault.kiku.model.Card;
@@ -83,11 +87,13 @@ public class CardRepository {
     }
 
     public void createCard(long deckId, Card card, RepositoryCallback<Card> callback) {
-        apiService.createCard(card).enqueue(new Callback<Card>() {
+        Log.d("CardRepository", "createCard: trying on deck " + deckId + " to send : " + card.toString() );
+        apiService.createCard(deckId, card).enqueue(new Callback<Card>() {
             @Override
             public void onResponse(Call<Card> call, Response<Card> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
+                    Log.d("CardRepository", "createCard: success creating on " + deckId + " the card : " + card.toString() );
                 } else {
                     callback.onError("Error: " + response.code());
                 }
@@ -113,6 +119,28 @@ public class CardRepository {
 
             @Override
             public void onFailure(Call<CardReview> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    public String getAudioUrl(String japaneseText) {
+        return ApiClient.getAudioUrl(japaneseText);
+    }
+
+    public void getAudioByCardId(String japaneseText, RepositoryCallback<MediaItem> callback) {
+        apiService.getAudio(japaneseText).enqueue(new Callback<MediaItem>() {
+            @Override
+            public void onResponse(Call<MediaItem> call, Response<MediaItem> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MediaItem> call, Throwable t) {
                 callback.onError(t.getMessage());
             }
         });

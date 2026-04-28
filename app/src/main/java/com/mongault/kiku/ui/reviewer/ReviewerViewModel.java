@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.media3.common.MediaItem;
 
 import com.mongault.kiku.data.repository.CardRepository;
 import com.mongault.kiku.data.repository.RepositoryCallback;
@@ -28,6 +29,7 @@ public class ReviewerViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isSessionFinished = new MutableLiveData<>(false);
     private final MutableLiveData<String> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    private final MutableLiveData<MediaItem> audioStream = new MutableLiveData<>();
 
     public ReviewerViewModel(long deckId, ReviewMode mode) {
         this.cardRepository = new CardRepository();
@@ -115,11 +117,17 @@ public class ReviewerViewModel extends ViewModel {
         return dueCardsQueue.getValue().size();
     }
 
+    public String getAudioUrl() {
+        Card card = reviewedCard.getValue();
+        if (card == null) return null;
+        return cardRepository.getAudioUrl(card.getJapanese());
+    }
 
     public LiveData<Long> getDeckId() { return deckId; }
     public LiveData<List<Card>> getDueCards() { return dueCardsQueue; }
     public LiveData<Card> getReviewedCard() { return reviewedCard; }
     public LiveData<ReviewMode> getMode() { return mode; }
+    public LiveData<MediaItem> getAudio() { return audioStream; }
     public LiveData<Boolean> getIsRevealed() { return isRevealed; };
     public LiveData<Boolean> getIsSessionFinished() { return isSessionFinished; };
     public LiveData<String> getError() { return error; }

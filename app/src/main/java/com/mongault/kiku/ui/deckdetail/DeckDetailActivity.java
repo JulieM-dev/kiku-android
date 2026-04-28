@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import com.mongault.kiku.databinding.ActivityDeckDetailBinding;
 import com.mongault.kiku.model.ReviewMode;
+import com.mongault.kiku.ui.cardeditor.CardEditorActivity;
 import com.mongault.kiku.ui.reviewer.ReviewerActivity;
 
 public class DeckDetailActivity extends AppCompatActivity {
@@ -35,8 +36,8 @@ public class DeckDetailActivity extends AppCompatActivity {
         viewModel.getDeck().observe(this, deck -> {
             binding.textDeckName.setText(deck.getName());
             binding.textDeckDescription.setText(deck.getDescription());
-            binding.textCardCount.setText("X" + " cards");
-        });                                 //deck.getCardCount()
+            binding.textCardCount.setText(deck.getCards().size() + " cards");
+        });
 
         viewModel.getError().observe(this, error -> {
             Toast.makeText(this, error, Toast.LENGTH_LONG).show();
@@ -54,12 +55,21 @@ public class DeckDetailActivity extends AppCompatActivity {
 
         binding.buttonExpression.setOnClickListener(v ->
                 startReview(ReviewMode.EXPRESSION));
+
+        binding.buttonCreateCard.setOnClickListener(v ->
+                createCard());
     }
 
     private void startReview(ReviewMode mode) {
         Intent intent = new Intent(this, ReviewerActivity.class);
         intent.putExtra("deckId", deckId);
         intent.putExtra("mode", mode.name());
+        startActivity(intent);
+    }
+
+    private void createCard() {
+        Intent intent = new Intent(this, CardEditorActivity.class);
+        intent.putExtra("deckId", deckId);
         startActivity(intent);
     }
 
