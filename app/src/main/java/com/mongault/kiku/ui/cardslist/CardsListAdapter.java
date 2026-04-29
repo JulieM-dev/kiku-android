@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mongault.kiku.R;
 import com.mongault.kiku.model.Card;
+import com.mongault.kiku.model.FormalityLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,19 @@ public class CardsListAdapter extends RecyclerView.Adapter<CardsListAdapter.Card
             textJapanese.setText(card.getJapanese());
             textTranslated.setText(card.getTranslation());
             textKanas.setText(card.getKana());
+            textRomaji.setText(card.getRomaji());
+            textFormality.setText(getFormalityString(card.getFormalityLevel()));
             itemView.setOnClickListener(v -> listener.onCardClick(card));
+        }
+
+        private String getFormalityString(FormalityLevel formalityLevel) {
+            switch (formalityLevel) {
+                case CASUAL :
+                    return "Casual";
+                case POLITE:
+                    return "Polite";
+                };
+            return "Default";
         }
     }
 }

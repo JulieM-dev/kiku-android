@@ -23,6 +23,23 @@ public class CardRepository {
         this.apiService = ApiClient.getInstance();
     }
 
+    public void getCard(long cardId, RepositoryCallback<Card> callback) {
+        apiService.getCard(cardId).enqueue(new Callback<Card>() {
+            @Override
+            public void onResponse(Call<Card> call, Response<Card> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Card> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
     public void getCardsByDeck(long deckId, RepositoryCallback<List<Card>> callback) {
         apiService.getCardsByDeck(deckId).enqueue(new Callback<List<Card>>() {
             @Override

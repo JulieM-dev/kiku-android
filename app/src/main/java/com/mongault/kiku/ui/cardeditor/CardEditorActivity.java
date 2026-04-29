@@ -26,6 +26,7 @@ public class CardEditorActivity extends AppCompatActivity {
     private CardEditorViewModel viewModel;
     private ExoPlayer player;
     private long deckId;
+    private long cardId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,15 @@ public class CardEditorActivity extends AppCompatActivity {
         String deckName = getIntent().getStringExtra("deckName");
         setTitle(deckName);
 
+        cardId = getIntent().getLongExtra("cardId", -1);
+
+
         setupViewModel();
-        setupPlayer();
         clearFields();
+        if(cardId != -1) {
+            viewModel.loadCard(cardId);
+        }
+        setupPlayer();
         setupButtons();
         setupSpinner();
     }
@@ -51,6 +58,8 @@ public class CardEditorActivity extends AppCompatActivity {
             binding.textDeckName.setText(deck.getName());
         });
 
+        viewModel.getCard().observe(this, this::initCard);
+
         viewModel.getError().observe(this, error -> {
             Toast.makeText(this, error, Toast.LENGTH_LONG).show();
         });
@@ -60,6 +69,16 @@ public class CardEditorActivity extends AppCompatActivity {
         });
 
         viewModel.loadDeck(deckId);
+
+    }
+
+    private void initCard(Card card) {
+        binding.textInputJapanese.setText(card.getJapanese());
+        binding.textInputTranslated.setText(card.getTranslation());
+        binding.textInputKana.setText(card.getKana());
+        binding.textInputRomaji.setText(card.getRomaji());
+        Log.d("CardEditorActivity", "initCard: finished binding textInput, cardId : " + card.getId());
+        viewModel.setIsNewCard(false);
     }
 
     private void setupPlayer() {
@@ -88,6 +107,7 @@ public class CardEditorActivity extends AppCompatActivity {
     }
 
     private void clearFields() {
+        viewModel.setIsNewCard(true);
         binding.textInputJapanese.setText("");
         binding.textInputTranslated.setText("");
         binding.textInputKana.setText("");

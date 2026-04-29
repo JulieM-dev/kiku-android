@@ -23,15 +23,20 @@ public class CardsListActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setTitle("My Cards");
 
-        setupRecyclerView();
         setupViewModel();
+
+        viewModel.setDeckId(getIntent().getLongExtra("deckId", -1));
+        viewModel.loadCards();
+
+        setupRecyclerView();
         setupSwipeRefresh();
     }
 
     private void setupRecyclerView() {
         adapter = new CardsListAdapter(card -> {
             Intent intent = new Intent(this, CardEditorActivity.class);
-            intent.putExtra("cardId", card.getId());
+            intent.putExtra("cardId", card.getId())
+                    .putExtra("deckId", viewModel.getDeckId().getValue());
             startActivity(intent);
         });
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));

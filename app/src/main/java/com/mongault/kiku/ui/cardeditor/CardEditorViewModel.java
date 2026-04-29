@@ -28,6 +28,7 @@ public class CardEditorViewModel extends ViewModel {
     private final MutableLiveData<String> kanaText = new MutableLiveData<>();
     private final MutableLiveData<String> romajiText = new MutableLiveData<>();
     private final MutableLiveData<FormalityLevel> formalityLevel = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isNewCard = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isCardSaved = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
@@ -52,6 +53,25 @@ public class CardEditorViewModel extends ViewModel {
 
             @Override
             public void onError(String errorMessage) {
+                error.setValue(errorMessage);
+                isLoading.setValue(false);
+            }
+        });
+    }
+
+    public void loadCard(long cardId) {
+        isLoading.setValue(true);
+        cardRepository.getCard(cardId, new RepositoryCallback<Card>() {
+            @Override
+            public void onSuccess(Card data) {
+                Log.d("CardEditorViewModel", "loadCard success for card : " + data.toString());
+                card.setValue(data);
+                isLoading.setValue(false);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.d("CardEditorViewModel", "loadCard error");
                 error.setValue(errorMessage);
                 isLoading.setValue(false);
             }
@@ -84,10 +104,13 @@ public class CardEditorViewModel extends ViewModel {
     }
 
 
+
     public LiveData<Card> getCard() { return card; }
     public LiveData<Deck> getDeck() { return deck; }
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getIsLoading() { return isLoading; }
+    public LiveData<Boolean> getIsNewCard() { return isNewCard ; }
+    public void setIsNewCard(Boolean value) { isNewCard.setValue(value);}
     public LiveData<Boolean> getIsVoiceLoading() { return isVoiceLoading; }
     public void setIsVoiceLoading(Boolean value) { isVoiceLoading.setValue(value); }
 

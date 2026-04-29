@@ -21,7 +21,6 @@ public class CardsListViewModel extends ViewModel {
 
     public CardsListViewModel() {
         this.cardRepository = new CardRepository();
-        loadCards();
     }
 
     public void loadCards() {

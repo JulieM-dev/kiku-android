@@ -64,13 +64,43 @@
         android:padding="16dp"
         android:text="Practice Oral Expression" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonCreateCard"
-        style="@style/Widget.Material3.Button.OutlinedButton"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="?attr/colorOutline" />
+
+    <LinearLayout
+        android:id="@+id/layoutEditButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:padding="16dp"
-        android:text="Create a new card" />
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonCreateCard"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:text="Create card" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonEditCards"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:text="Edit cards" />
+
+    </LinearLayout>
 
 </LinearLayout>
