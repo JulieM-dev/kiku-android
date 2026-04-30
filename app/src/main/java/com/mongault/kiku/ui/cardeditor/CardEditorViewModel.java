@@ -40,6 +40,7 @@ public class CardEditorViewModel extends ViewModel {
         this.cardRepository = new CardRepository();
         this.deckRepository = new DeckRepository();
         this.isCardSaved.setValue(false);
+        this.isNewCard.setValue(true);
     }
 
     public void loadDeck(long deckId) {
@@ -78,10 +79,34 @@ public class CardEditorViewModel extends ViewModel {
         });
     }
 
+    public void validateCard(Card card) {
+        if(isNewCard.getValue()) {
+            submitNewCard(card);
+        } else {
+            submitEditCard(card);
+        }
+    }
     public void submitNewCard(Card card) {
         isLoading.setValue(true);
-        Log.d("submitNewCard", "Submiting card : " + card.toString());
         cardRepository.createCard(deck.getValue().getId(), card, new RepositoryCallback<Card>() {
+            @Override
+            public void onSuccess(Card card) {
+                isCardSaved.setValue(true);
+                isLoading.setValue(false);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                error.setValue(errorMessage);
+                throw new IllegalArgumentException("Submit answer error: " + errorMessage );
+            }
+        });
+    }
+
+    public void submitEditCard(Card card) {
+        isLoading.setValue(true);
+        Log.d("submitEditCard", "Submiting card : " + card.toString());
+        cardRepository.editCard(deck.getValue().getId(), card, new RepositoryCallback<Card>() {
             @Override
             public void onSuccess(Card card) {
                 isCardSaved.setValue(true);
@@ -98,6 +123,7 @@ public class CardEditorViewModel extends ViewModel {
     }
 
 
+
     public String getAudioUrl(String textToSpeech) {
         if (textToSpeech == null) return null;
         return cardRepository.getAudioUrl(textToSpeech);
@@ -109,6 +135,7 @@ public class CardEditorViewModel extends ViewModel {
     public LiveData<Deck> getDeck() { return deck; }
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getIsLoading() { return isLoading; }
+    public LiveData<Boolean> getIsCardSaved() { return isCardSaved; }
     public LiveData<Boolean> getIsNewCard() { return isNewCard ; }
     public void setIsNewCard(Boolean value) { isNewCard.setValue(value);}
     public LiveData<Boolean> getIsVoiceLoading() { return isVoiceLoading; }

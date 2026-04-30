@@ -68,6 +68,10 @@ public class CardEditorActivity extends AppCompatActivity {
             binding.buttonVoiceTest.setEnabled(!isVoiceLoading);
         });
 
+        viewModel.getIsCardSaved().observe(this, isCardSaved -> {
+            clearFields();
+        });
+
         viewModel.loadDeck(deckId);
 
     }
@@ -130,22 +134,42 @@ public class CardEditorActivity extends AppCompatActivity {
         binding.buttonExit.setOnClickListener(v -> finish());
 
         binding.buttonSaveCard.setOnClickListener(v ->
-               createCard() );
+               saveCard() );
     }
 
     private void setupSpinner() {
         binding.spinnerFormalityLevel.setSelection(0);
     }
 
-    private void createCard() {
-        Card newCard = new Card();
-        newCard.setJapanese(binding.textInputJapanese.getText().toString());
-        newCard.setTranslation(binding.textInputTranslated.getText().toString());
-        newCard.setKana(binding.textInputKana.getText().toString());
-        newCard.setRomaji(binding.textInputRomaji.getText().toString());
-        newCard.setFormalityLevel(getFormality());
-        viewModel.submitNewCard(newCard);
-        clearFields();
+    private void saveCard() {
+        if(viewModel.getIsNewCard().getValue()) {
+            viewModel.validateCard(createCard());
+        } else {
+            viewModel.validateCard(editCard());
+        }
+    }
+
+    private Card createCard() {
+        Card card = new Card();
+        if(!viewModel.getIsNewCard().getValue()) { card = viewModel.getCard().getValue();}
+        card.setJapanese(binding.textInputJapanese.getText().toString());
+        card.setTranslation(binding.textInputTranslated.getText().toString());
+        card.setKana(binding.textInputKana.getText().toString());
+        card.setRomaji(binding.textInputRomaji.getText().toString());
+        card.setFormalityLevel(getFormality());
+
+        return card;
+    }
+
+    private Card editCard() {
+        Card card = viewModel.getCard().getValue();
+        card.setJapanese(binding.textInputJapanese.getText().toString());
+        card.setTranslation(binding.textInputTranslated.getText().toString());
+        card.setKana(binding.textInputKana.getText().toString());
+        card.setRomaji(binding.textInputRomaji.getText().toString());
+        card.setFormalityLevel(getFormality());
+
+        return card;
     }
 
     private void playAudio() {

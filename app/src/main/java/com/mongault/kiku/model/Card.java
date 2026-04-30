@@ -14,6 +14,8 @@ public class Card {
 
     private Long id;
 
+    private Long initialOrder;
+
     private String japanese;
 
     private String kana;

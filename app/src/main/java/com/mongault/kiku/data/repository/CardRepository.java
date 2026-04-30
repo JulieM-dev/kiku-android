@@ -123,6 +123,27 @@ public class CardRepository {
         });
     }
 
+    public void editCard(Long deckId, Card card, RepositoryCallback<Card> callback) {
+        Log.d("CardRepository", "editCard: trying on deck " + deckId + " to send : " + card.toString() );
+        apiService.editCard(deckId, card).enqueue(new Callback<Card>() {
+
+            @Override
+            public void onResponse(Call<Card> call, Response<Card> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                    Log.d("CardRepository", "editCard: success editing the card : "  + card.toString() );
+                } else {
+                    callback.onError("Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Card> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
     public void submitAnswer(long cardId, SubmitAnswer submitAnswer, RepositoryCallback<CardReview> callback) {
         apiService.submitAnswer(cardId, submitAnswer).enqueue(new Callback<CardReview>() {
             @Override
