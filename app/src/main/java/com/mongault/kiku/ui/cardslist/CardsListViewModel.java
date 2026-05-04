@@ -1,8 +1,12 @@
 package com.mongault.kiku.ui.cardslist;
 
+import android.app.Application;
+
 import com.mongault.kiku.data.repository.CardRepository;
 import com.mongault.kiku.data.repository.RepositoryCallback;
 import com.mongault.kiku.model.Card;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,7 +14,7 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-public class CardsListViewModel extends ViewModel {
+public class CardsListViewModel extends AndroidViewModel {
 
     private final CardRepository cardRepository;
 
@@ -19,8 +23,9 @@ public class CardsListViewModel extends ViewModel {
     private final MutableLiveData<String> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    public CardsListViewModel() {
-        this.cardRepository = new CardRepository();
+    public CardsListViewModel(Application application) {
+        super(application);
+        this.cardRepository = new CardRepository(application);
     }
 
     public void loadCards() {

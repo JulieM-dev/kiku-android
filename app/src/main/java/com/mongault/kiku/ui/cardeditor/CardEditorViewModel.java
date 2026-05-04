@@ -1,7 +1,9 @@
 package com.mongault.kiku.ui.cardeditor;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,7 +18,7 @@ import com.mongault.kiku.model.FormalityLevel;
 
 import java.util.List;
 
-public class CardEditorViewModel extends ViewModel {
+public class CardEditorViewModel extends AndroidViewModel {
 
     private final CardRepository cardRepository;
     private final DeckRepository deckRepository;
@@ -36,9 +38,10 @@ public class CardEditorViewModel extends ViewModel {
 
 
 
-    public CardEditorViewModel() {
-        this.cardRepository = new CardRepository();
-        this.deckRepository = new DeckRepository();
+    public CardEditorViewModel(Application application) {
+        super(application);
+        this.cardRepository = new CardRepository(application);
+        this.deckRepository = new DeckRepository(application);
         this.isCardSaved.setValue(false);
         this.isNewCard.setValue(true);
     }

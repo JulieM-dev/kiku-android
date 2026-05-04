@@ -1,4 +1,7 @@
 package com.mongault.kiku.ui.auth;
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -7,7 +10,7 @@ import com.mongault.kiku.data.repository.AuthRepository;
 import com.mongault.kiku.data.repository.RepositoryCallback;
 import com.mongault.kiku.model.AuthResponse;
 
-public class AuthViewModel extends ViewModel {
+public class AuthViewModel extends AndroidViewModel {
 
     private final AuthRepository authRepository;
 
@@ -15,8 +18,9 @@ public class AuthViewModel extends ViewModel {
     private final MutableLiveData<String> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
-    public AuthViewModel() {
-        this.authRepository = new AuthRepository();
+    public AuthViewModel(Application application) {
+        super(application);
+        this.authRepository = new AuthRepository(application);
     }
 
     public void login(String email, String password) {
