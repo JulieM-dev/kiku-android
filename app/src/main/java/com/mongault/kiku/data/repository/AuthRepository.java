@@ -1,5 +1,7 @@
 package com.mongault.kiku.data.repository;
 
+import android.content.Context;
+
 import com.mongault.kiku.data.remote.ApiClient;
 import com.mongault.kiku.data.remote.ApiService;
 import com.mongault.kiku.model.AuthRequest;
@@ -13,8 +15,8 @@ public class AuthRepository {
 
     private final ApiService apiService;
 
-    public AuthRepository() {
-        this.apiService = ApiClient.getInstance();
+    public AuthRepository(Context context) {
+        this.apiService = ApiClient.getInstance(context);
     }
 
     public void login(String email, String password, RepositoryCallback<AuthResponse> callback) {

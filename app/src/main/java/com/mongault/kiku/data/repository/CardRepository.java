@@ -1,5 +1,6 @@
 package com.mongault.kiku.data.repository;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.media3.common.MediaItem;
@@ -19,8 +20,8 @@ public class CardRepository {
 
     private final ApiService apiService;
 
-    public CardRepository() {
-        this.apiService = ApiClient.getInstance();
+    public CardRepository(Context context) {
+        this.apiService = ApiClient.getInstance(context);
     }
 
     public void getCard(long cardId, RepositoryCallback<Card> callback) {
