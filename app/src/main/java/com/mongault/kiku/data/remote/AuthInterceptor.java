@@ -22,7 +22,9 @@ public class AuthInterceptor implements Interceptor {
 
         Request request = chain.request();
 
-        if (token != null) {
+        boolean isAuthRoute = request.url().encodedPath().contains("/api/auth/");
+
+        if (token != null && !isAuthRoute) {
             request = request.newBuilder()
                     .addHeader("Authorization", "Bearer " + token)
                     .build();

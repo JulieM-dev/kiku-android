@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setupButtons() {
         binding.buttonLogin.setOnClickListener(v -> {
+            TokenManager.getInstance(this).clearToken();
             String email = binding.textInputEmail.getText().toString().trim();
             String password = binding.textInputPassword.getText().toString().trim();
             viewModel.login(email, password);

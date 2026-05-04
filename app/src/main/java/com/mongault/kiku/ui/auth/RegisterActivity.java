@@ -52,6 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void setupButtons() {
         binding.buttonRegister.setOnClickListener(v -> {
+            TokenManager.getInstance(this).clearToken();
             String username = binding.textInputUsername.getText().toString();
             String email = binding.textInputEmail.getText().toString().trim();
             String password = binding.textInputPassword.getText().toString().trim();
