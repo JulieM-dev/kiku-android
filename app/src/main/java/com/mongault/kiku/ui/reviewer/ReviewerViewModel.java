@@ -33,6 +33,8 @@ public class ReviewerViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<MediaItem> audioStream = new MutableLiveData<>();
 
+    private final MutableLiveData<Boolean> isVoiceLoading = new MutableLiveData<>();
+
     public ReviewerViewModel(Application application) {
         super(application);
         this.cardRepository = new CardRepository(application);
@@ -128,4 +130,6 @@ public class ReviewerViewModel extends AndroidViewModel {
     public LiveData<Boolean> getIsSessionFinished() { return isSessionFinished; };
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getIsLoading() { return isLoading; }
+    public LiveData<Boolean> getIsVoiceLoading() { return isVoiceLoading; }
+    public void setIsVoiceLoading(Boolean value) { isVoiceLoading.setValue(value); }
 }

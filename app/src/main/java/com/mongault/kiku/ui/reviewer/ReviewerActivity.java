@@ -1,19 +1,29 @@
 package com.mongault.kiku.ui.reviewer;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.PlaybackException;
 import androidx.media3.common.PlaybackParameters;
+import androidx.media3.common.Player;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 
+import com.mongault.kiku.data.local.TokenManager;
 import com.mongault.kiku.databinding.ActivityReviewBinding;
 import com.mongault.kiku.model.Card;
 import com.mongault.kiku.model.ReviewMode;
+
+import java.util.HashMap;
 
 public class ReviewerActivity extends AppCompatActivity {
 
@@ -32,7 +42,7 @@ public class ReviewerActivity extends AppCompatActivity {
         long deckId = getIntent().getLongExtra("deckId", -1);
         setTitle(getModeTitle());
 
-        setupPlayer();
+        setupPlayer(this);
         setupViewModel(deckId);
         setupButtons();
     }
@@ -46,8 +56,42 @@ public class ReviewerActivity extends AppCompatActivity {
         }
     }
 
-    private void setupPlayer() {
-        player = new ExoPlayer.Builder(this).build();
+    @OptIn(markerClass = UnstableApi.class)
+    private void setupPlayer(Context context) {
+
+        String token = TokenManager.getInstance(context).getToken();
+
+        DefaultHttpDataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
+                .setDefaultRequestProperties(
+                        new HashMap<String, String>() {{
+                            put("Authorization", "Bearer " + token);
+                        }}
+                );
+
+        player = new ExoPlayer.Builder(context)
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory))
+                .build();
+
+        player.addListener(new Player.Listener() {
+            @Override
+            public void onPlaybackStateChanged(int state) {
+                switch (state) {
+                    case Player.STATE_BUFFERING:
+                        viewModel.setIsVoiceLoading(true);
+                        break;
+                    case Player.STATE_READY:
+                    case Player.STATE_ENDED:
+                    case Player.STATE_IDLE:
+                        viewModel.setIsVoiceLoading(false);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPlayerError(PlaybackException error) {
+                viewModel.setIsVoiceLoading(false);
+            }
+        });
     }
 
     private void setupViewModel(long deckId) {
@@ -70,6 +114,10 @@ public class ReviewerActivity extends AppCompatActivity {
                 Toast.makeText(this, "Session complete!", Toast.LENGTH_SHORT).show();
                 finish();
             }
+        });
+
+        viewModel.getIsVoiceLoading().observe(this, isVoiceLoading -> {
+            binding.buttonPlayAudio.setEnabled(!isVoiceLoading);
         });
 
         viewModel.getError().observe(this, error ->

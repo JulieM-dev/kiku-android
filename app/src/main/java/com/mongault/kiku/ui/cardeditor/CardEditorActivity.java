@@ -1,24 +1,32 @@
 package com.mongault.kiku.ui.cardeditor;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
 
+import com.mongault.kiku.data.local.TokenManager;
 import com.mongault.kiku.databinding.ActivityCardEditorBinding;
 import com.mongault.kiku.model.Card;
 import com.mongault.kiku.model.FormalityLevel;
 import com.mongault.kiku.model.ReviewMode;
 import com.mongault.kiku.ui.deckdetail.DeckDetailViewModel;
 import com.mongault.kiku.ui.reviewer.ReviewerActivity;
+
+import java.util.HashMap;
 
 public class CardEditorActivity extends AppCompatActivity {
 
@@ -46,7 +54,7 @@ public class CardEditorActivity extends AppCompatActivity {
         if(cardId != -1) {
             viewModel.loadCard(cardId);
         }
-        setupPlayer();
+        setupPlayer(this);
         setupButtons();
         setupSpinner();
     }
@@ -85,8 +93,21 @@ public class CardEditorActivity extends AppCompatActivity {
         viewModel.setIsNewCard(false);
     }
 
-    private void setupPlayer() {
-        player = new ExoPlayer.Builder(this).build();
+    @OptIn(markerClass = UnstableApi.class)
+    private void setupPlayer(Context context) {
+
+        String token = TokenManager.getInstance(context).getToken();
+
+        DefaultHttpDataSource.Factory dataSourceFactory = new DefaultHttpDataSource.Factory()
+                .setDefaultRequestProperties(
+                        new HashMap<String, String>() {{
+                            put("Authorization", "Bearer " + token);
+                        }}
+                );
+
+        player = new ExoPlayer.Builder(context)
+                .setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory))
+                .build();
 
         player.addListener(new Player.Listener() {
             @Override
