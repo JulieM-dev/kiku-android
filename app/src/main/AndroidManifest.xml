@@ -14,13 +14,21 @@
         android:theme="@style/Theme.Kiku"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.decklist.DeckListActivity"
+            android:name=".ui.deckslist.DecksListActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.auth.RegisterActivity"
+            android:exported="true">
         </activity>
         <activity
             android:name=".ui.deckdetail.DeckDetailActivity"
@@ -32,6 +40,10 @@
         </activity>
         <activity
             android:name=".ui.cardeditor.CardEditorActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".ui.cardslist.CardsListActivity"
             android:exported="true">
         </activity>
     </application>

@@ -1,7 +1,9 @@
 package com.mongault.kiku.ui.cardeditor;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,7 +18,7 @@ import com.mongault.kiku.model.FormalityLevel;
 
 import java.util.List;
 
-public class CardEditorViewModel extends ViewModel {
+public class CardEditorViewModel extends AndroidViewModel {
 
     private final CardRepository cardRepository;
     private final DeckRepository deckRepository;
@@ -28,6 +30,7 @@ public class CardEditorViewModel extends ViewModel {
     private final MutableLiveData<String> kanaText = new MutableLiveData<>();
     private final MutableLiveData<String> romajiText = new MutableLiveData<>();
     private final MutableLiveData<FormalityLevel> formalityLevel = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isNewCard = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isCardSaved = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
@@ -35,10 +38,12 @@ public class CardEditorViewModel extends ViewModel {
 
 
 
-    public CardEditorViewModel() {
-        this.cardRepository = new CardRepository();
-        this.deckRepository = new DeckRepository();
+    public CardEditorViewModel(Application application) {
+        super(application);
+        this.cardRepository = new CardRepository(application);
+        this.deckRepository = new DeckRepository(application);
         this.isCardSaved.setValue(false);
+        this.isNewCard.setValue(true);
     }
 
     public void loadDeck(long deckId) {
@@ -58,10 +63,53 @@ public class CardEditorViewModel extends ViewModel {
         });
     }
 
+    public void loadCard(long cardId) {
+        isLoading.setValue(true);
+        cardRepository.getCard(cardId, new RepositoryCallback<Card>() {
+            @Override
+            public void onSuccess(Card data) {
+                Log.d("CardEditorViewModel", "loadCard success for card : " + data.toString());
+                card.setValue(data);
+                isLoading.setValue(false);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Log.d("CardEditorViewModel", "loadCard error");
+                error.setValue(errorMessage);
+                isLoading.setValue(false);
+            }
+        });
+    }
+
+    public void validateCard(Card card) {
+        if(isNewCard.getValue()) {
+            submitNewCard(card);
+        } else {
+            submitEditCard(card);
+        }
+    }
     public void submitNewCard(Card card) {
         isLoading.setValue(true);
-        Log.d("submitNewCard", "Submiting card : " + card.toString());
         cardRepository.createCard(deck.getValue().getId(), card, new RepositoryCallback<Card>() {
+            @Override
+            public void onSuccess(Card card) {
+                isCardSaved.setValue(true);
+                isLoading.setValue(false);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                error.setValue(errorMessage);
+                throw new IllegalArgumentException("Submit answer error: " + errorMessage );
+            }
+        });
+    }
+
+    public void submitEditCard(Card card) {
+        isLoading.setValue(true);
+        Log.d("submitEditCard", "Submiting card : " + card.toString());
+        cardRepository.editCard(deck.getValue().getId(), card, new RepositoryCallback<Card>() {
             @Override
             public void onSuccess(Card card) {
                 isCardSaved.setValue(true);
@@ -78,16 +126,21 @@ public class CardEditorViewModel extends ViewModel {
     }
 
 
+
     public String getAudioUrl(String textToSpeech) {
         if (textToSpeech == null) return null;
         return cardRepository.getAudioUrl(textToSpeech);
     }
 
 
+
     public LiveData<Card> getCard() { return card; }
     public LiveData<Deck> getDeck() { return deck; }
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getIsLoading() { return isLoading; }
+    public LiveData<Boolean> getIsCardSaved() { return isCardSaved; }
+    public LiveData<Boolean> getIsNewCard() { return isNewCard ; }
+    public void setIsNewCard(Boolean value) { isNewCard.setValue(value);}
     public LiveData<Boolean> getIsVoiceLoading() { return isVoiceLoading; }
     public void setIsVoiceLoading(Boolean value) { isVoiceLoading.setValue(value); }
 

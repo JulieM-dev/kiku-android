@@ -1,5 +1,7 @@
 package com.mongault.kiku.data.repository;
 
+import android.content.Context;
+
 import com.mongault.kiku.data.remote.ApiClient;
 import com.mongault.kiku.data.remote.ApiService;
 import com.mongault.kiku.model.Deck;
@@ -12,8 +14,8 @@ public class DeckRepository {
 
     private final ApiService apiService;
 
-    public DeckRepository() {
-        this.apiService = ApiClient.getInstance();
+    public DeckRepository(Context context) {
+        this.apiService = ApiClient.getInstance(context);
     }
 
     public void getDecks(RepositoryCallback<List<Deck>> callback) {

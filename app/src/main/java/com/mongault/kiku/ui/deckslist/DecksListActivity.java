@@ -1,4 +1,4 @@
-package com.mongault.kiku.ui.decklist;
+package com.mongault.kiku.ui.deckslist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,19 +6,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.mongault.kiku.databinding.ActivityDeckListBinding;
+import com.mongault.kiku.databinding.ActivityDecksListBinding;
 import com.mongault.kiku.ui.deckdetail.DeckDetailActivity;
 
-public class DeckListActivity extends AppCompatActivity {
+public class DecksListActivity extends AppCompatActivity {
 
-    private ActivityDeckListBinding binding;
-    private DeckListViewModel viewModel;
-    private DeckAdapter adapter;
+    private ActivityDecksListBinding binding;
+    private DecksListViewModel viewModel;
+    private DecksListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityDeckListBinding.inflate(getLayoutInflater());
+        binding = ActivityDecksListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setTitle("My Decks");
 
@@ -28,7 +28,7 @@ public class DeckListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        adapter = new DeckAdapter(deck -> {
+        adapter = new DecksListAdapter(deck -> {
             Intent intent = new Intent(this, DeckDetailActivity.class);
             intent.putExtra("deckId", deck.getId());
             intent.putExtra("deckName", deck.getName());
@@ -39,7 +39,7 @@ public class DeckListActivity extends AppCompatActivity {
     }
 
     private void setupViewModel() {
-        viewModel = new ViewModelProvider(this).get(DeckListViewModel.class);
+        viewModel = new ViewModelProvider(this).get(DecksListViewModel.class);
 
         viewModel.getDecks().observe(this, decks -> {
             adapter.setDecks(decks);

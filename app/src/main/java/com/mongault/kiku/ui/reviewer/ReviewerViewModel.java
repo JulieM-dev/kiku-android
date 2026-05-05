@@ -1,7 +1,9 @@
 package com.mongault.kiku.ui.reviewer;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -17,7 +19,7 @@ import com.mongault.kiku.model.SubmitAnswer;
 
 import java.util.List;
 
-public class ReviewerViewModel extends ViewModel {
+public class ReviewerViewModel extends AndroidViewModel {
 
     private final CardRepository cardRepository;
 
@@ -31,15 +33,11 @@ public class ReviewerViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<MediaItem> audioStream = new MutableLiveData<>();
 
-    public ReviewerViewModel(long deckId, ReviewMode mode) {
-        this.cardRepository = new CardRepository();
-        this.mode.setValue(mode);
-        this.deckId.setValue(deckId);
-        loadDueCards(deckId, mode);
-    }
+    private final MutableLiveData<Boolean> isVoiceLoading = new MutableLiveData<>();
 
-    public ReviewerViewModel() {
-        this.cardRepository = new CardRepository();
+    public ReviewerViewModel(Application application) {
+        super(application);
+        this.cardRepository = new CardRepository(application);
     }
 
     public void loadDueCards(Long deckId, ReviewMode reviewMode) {
@@ -132,4 +130,6 @@ public class ReviewerViewModel extends ViewModel {
     public LiveData<Boolean> getIsSessionFinished() { return isSessionFinished; };
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getIsLoading() { return isLoading; }
+    public LiveData<Boolean> getIsVoiceLoading() { return isVoiceLoading; }
+    public void setIsVoiceLoading(Boolean value) { isVoiceLoading.setValue(value); }
 }

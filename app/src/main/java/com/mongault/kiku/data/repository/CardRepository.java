@@ -1,5 +1,6 @@
 package com.mongault.kiku.data.repository;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.media3.common.MediaItem;
@@ -19,10 +20,27 @@ public class CardRepository {
 
     private final ApiService apiService;
 
-    public CardRepository() {
-        this.apiService = ApiClient.getInstance();
+    public CardRepository(Context context) {
+        this.apiService = ApiClient.getInstance(context);
     }
 
+    public void getCard(long cardId, RepositoryCallback<Card> callback) {
+        apiService.getCard(cardId).enqueue(new Callback<Card>() {
+            @Override
+            public void onResponse(Call<Card> call, Response<Card> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onError("Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Card> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
     public void getCardsByDeck(long deckId, RepositoryCallback<List<Card>> callback) {
         apiService.getCardsByDeck(deckId).enqueue(new Callback<List<Card>>() {
             @Override
@@ -94,6 +112,27 @@ public class CardRepository {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                     Log.d("CardRepository", "createCard: success creating on " + deckId + " the card : " + card.toString() );
+                } else {
+                    callback.onError("Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Card> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    public void editCard(Long deckId, Card card, RepositoryCallback<Card> callback) {
+        Log.d("CardRepository", "editCard: trying on deck " + deckId + " to send : " + card.toString() );
+        apiService.editCard(deckId, card).enqueue(new Callback<Card>() {
+
+            @Override
+            public void onResponse(Call<Card> call, Response<Card> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                    Log.d("CardRepository", "editCard: success editing the card : "  + card.toString() );
                 } else {
                     callback.onError("Error: " + response.code());
                 }

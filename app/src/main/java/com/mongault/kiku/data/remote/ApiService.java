@@ -2,6 +2,8 @@ package com.mongault.kiku.data.remote;
 
 import androidx.media3.common.MediaItem;
 
+import com.mongault.kiku.model.AuthRequest;
+import com.mongault.kiku.model.AuthResponse;
 import com.mongault.kiku.model.Card;
 import com.mongault.kiku.model.CardReview;
 import com.mongault.kiku.model.Deck;
@@ -17,6 +19,15 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
+
+    //----------------------------------------------------------------------------------------------
+    // Auth
+
+    @POST("api/auth/login")
+    Call<AuthResponse> login(@Body AuthRequest request);
+
+    @POST("api/auth/register")
+    Call<AuthResponse> register(@Body AuthRequest request);
 
     //----------------------------------------------------------------------------------------------
     // Decks
@@ -44,6 +55,9 @@ public interface ApiService {
 
     @POST("api/cards/create/{deckId}")
     Call<Card> createCard(@Path("deckId") long deckId, @Body Card card);
+
+    @POST("api/cards/edit/{deckId}")
+    Call<Card> editCard(@Path("deckId")long deckId, @Body Card card);
 
     //----------------------------------------------------------------------------------------------
     // Submit a review answer

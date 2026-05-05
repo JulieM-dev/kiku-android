@@ -1,4 +1,4 @@
-package com.mongault.kiku.ui.decklist;
+package com.mongault.kiku.ui.deckslist;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,7 @@ import com.mongault.kiku.model.Deck;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder> {
+public class DecksListAdapter extends RecyclerView.Adapter<DecksListAdapter.DeckViewHolder> {
 
     public interface OnDeckClickListener {
         void onDeckClick(Deck deck);
@@ -23,7 +23,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
     private List<Deck> decks = new ArrayList<>();
     private final OnDeckClickListener listener;
 
-    public DeckAdapter(OnDeckClickListener listener) {
+    public DecksListAdapter(OnDeckClickListener listener) {
         this.listener = listener;
     }
 

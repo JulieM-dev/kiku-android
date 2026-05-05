@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.mongault.kiku.databinding.ActivityDeckDetailBinding;
 import com.mongault.kiku.model.ReviewMode;
 import com.mongault.kiku.ui.cardeditor.CardEditorActivity;
+import com.mongault.kiku.ui.cardslist.CardsListActivity;
 import com.mongault.kiku.ui.reviewer.ReviewerActivity;
 
 public class DeckDetailActivity extends AppCompatActivity {
@@ -58,12 +59,20 @@ public class DeckDetailActivity extends AppCompatActivity {
 
         binding.buttonCreateCard.setOnClickListener(v ->
                 createCard());
+
+        binding.buttonEditCards.setOnClickListener(v -> cardsList());
     }
 
     private void startReview(ReviewMode mode) {
         Intent intent = new Intent(this, ReviewerActivity.class);
         intent.putExtra("deckId", deckId);
         intent.putExtra("mode", mode.name());
+        startActivity(intent);
+    }
+
+    private void cardsList() {
+        Intent intent = new Intent(this, CardsListActivity.class);
+        intent.putExtra("deckId", deckId);
         startActivity(intent);
     }
 
