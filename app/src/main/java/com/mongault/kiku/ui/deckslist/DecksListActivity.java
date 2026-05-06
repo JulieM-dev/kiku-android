@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.mongault.kiku.databinding.ActivityDecksListBinding;
+import com.mongault.kiku.ui.cardeditor.CardEditorActivity;
 import com.mongault.kiku.ui.deckdetail.DeckDetailActivity;
+import com.mongault.kiku.ui.deckeditor.DeckEditorActivity;
 
 public class DecksListActivity extends AppCompatActivity {
 
@@ -25,6 +27,7 @@ public class DecksListActivity extends AppCompatActivity {
         setupRecyclerView();
         setupViewModel();
         setupSwipeRefresh();
+        setupButtons();
     }
 
     private void setupRecyclerView() {
@@ -54,8 +57,17 @@ public class DecksListActivity extends AppCompatActivity {
         });
     }
 
+    private void setupButtons() {
+        binding.buttonCreateDeck.setOnClickListener(v -> createDeck());
+    }
+
     private void setupSwipeRefresh() {
         binding.swipeRefresh.setOnRefreshListener(() -> viewModel.loadDecks());
+    }
+
+    private void createDeck() {
+        Intent intent = new Intent(this, DeckEditorActivity.class);
+        startActivity(intent);
     }
 
     @Override
