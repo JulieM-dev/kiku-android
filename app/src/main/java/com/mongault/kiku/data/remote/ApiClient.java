@@ -44,8 +44,9 @@ public class ApiClient {
         return instance;
     }
 
-    public static String getAudioUrl(String japaneseText) {
-        String url = BASE_URL + "api/audio/text/" + Uri.encode(japaneseText);
+    public static String getAudioUrl(String japaneseText, boolean isFemale) {
+        String gender = isFemale ? "6" : "1";
+        String url = BASE_URL + "api/audio/text/" + Uri.encode(japaneseText) + "?gender=" + gender;
         Log.d("ApiClient", "Audio URL: " + url);
         return url;
     }

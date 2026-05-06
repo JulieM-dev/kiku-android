@@ -163,8 +163,8 @@ public class CardRepository {
         });
     }
 
-    public String getAudioUrl(String japaneseText) {
-        return ApiClient.getAudioUrl(japaneseText);
+    public String getAudioUrl(String japaneseText, boolean isFemale) {
+        return ApiClient.getAudioUrl(japaneseText, isFemale);
     }
 
     public void getAudioByCardId(String japaneseText, RepositoryCallback<MediaItem> callback) {

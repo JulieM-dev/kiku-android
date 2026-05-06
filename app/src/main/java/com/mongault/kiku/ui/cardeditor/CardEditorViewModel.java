@@ -129,7 +129,7 @@ public class CardEditorViewModel extends AndroidViewModel {
 
     public String getAudioUrl(String textToSpeech) {
         if (textToSpeech == null) return null;
-        return cardRepository.getAudioUrl(textToSpeech);
+        return cardRepository.getAudioUrl(textToSpeech, true);
     }
 
 
