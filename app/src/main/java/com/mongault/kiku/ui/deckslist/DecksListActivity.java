@@ -6,8 +6,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.mongault.kiku.data.local.TokenManager;
 import com.mongault.kiku.databinding.ActivityDecksListBinding;
 import com.mongault.kiku.ui.cardeditor.CardEditorActivity;
+import com.mongault.kiku.ui.common.ToolbarManager;
 import com.mongault.kiku.ui.deckdetail.DeckDetailActivity;
 import com.mongault.kiku.ui.deckeditor.DeckEditorActivity;
 
@@ -16,6 +19,7 @@ public class DecksListActivity extends AppCompatActivity {
     private ActivityDecksListBinding binding;
     private DecksListViewModel viewModel;
     private DecksListAdapter adapter;
+    private ToolbarManager toolbarManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,9 @@ public class DecksListActivity extends AppCompatActivity {
         binding = ActivityDecksListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setTitle("My Decks");
+
+        toolbarManager = new ToolbarManager(this, binding.toolbar.toolbar);
+        toolbarManager.setUsername(TokenManager.getInstance(this).getUsername());
 
         setupRecyclerView();
         setupViewModel();
