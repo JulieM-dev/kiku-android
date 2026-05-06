@@ -5,11 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/view_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="650dp"
-        android:paddingTop="50dp">
+        android:layout_height="650dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -23,27 +28,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:gravity="bottom"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonExit"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_weight="1"
-            android:padding="16dp"
-            android:text="Exit" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonCreateDeck"
-            android:layout_width="match_parent"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_weight="1"
-            android:padding="16dp"
-            android:text="Create deck" />
+            android:layout_gravity="center_horizontal"
+            android:drawableEnd="@drawable/ic_baseline_add_box_100"
+            android:drawableTint="?attr/colorSecondaryContainer" />
+
 
     </LinearLayout>
 

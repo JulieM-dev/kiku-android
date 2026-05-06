@@ -8,4 +8,7 @@ import lombok.Data;
 public class AuthResponse {
     @SerializedName("token")
     private String token;
+
+    @SerializedName("username")
+    private String username;
 }

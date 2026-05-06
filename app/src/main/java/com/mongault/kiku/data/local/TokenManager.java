@@ -7,6 +7,7 @@ public class TokenManager {
 
     private static final String PREF_NAME = "kiku_secure_prefs";
     private static final String KEY_TOKEN = "jwt_token";
+    private static final String KEY_USERNAME = "username";
 
     private static TokenManager instance;
     private final SharedPreferences prefs;
@@ -27,8 +28,16 @@ public class TokenManager {
         prefs.edit().putString(KEY_TOKEN, token).apply();
     }
 
+    public void saveUsername(String username) {
+        prefs.edit().putString(KEY_USERNAME, username).apply();
+    }
+
     public String getToken() {
         return prefs.getString(KEY_TOKEN, null);
+    }
+
+    public String getUsername() {
+        return prefs.getString(KEY_USERNAME, "User");
     }
 
     public boolean hasToken() {
@@ -36,6 +45,6 @@ public class TokenManager {
     }
 
     public void clearToken() {
-        prefs.edit().remove(KEY_TOKEN).apply();
+        prefs.edit().remove(KEY_TOKEN).remove(KEY_USERNAME).apply();
     }
 }
