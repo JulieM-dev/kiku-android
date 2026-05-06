@@ -43,6 +43,10 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".ui.deckeditor.DeckEditorActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ui.cardslist.CardsListActivity"
             android:exported="true">
         </activity>

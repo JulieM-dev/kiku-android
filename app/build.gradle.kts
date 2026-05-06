@@ -18,15 +18,23 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", "\"http://178.104.254.155:8080/\"")
     }
 
+
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL","\"http://88.184.201.146:18080/\"")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", "\"http://178.104.254.155:8080/\"")
         }
     }
     compileOptions {
@@ -36,6 +44,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

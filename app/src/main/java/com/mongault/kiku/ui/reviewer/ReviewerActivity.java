@@ -152,6 +152,7 @@ public class ReviewerActivity extends AppCompatActivity {
                 break;
         }
 
+        binding.textKanas.setText(card.getKana());
         binding.textRomaji.setText(card.getRomaji());
         binding.textTranslation.setText(card.getTranslation());
     }

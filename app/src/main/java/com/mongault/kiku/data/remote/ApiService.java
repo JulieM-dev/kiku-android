@@ -38,6 +38,10 @@ public interface ApiService {
     @GET("api/decks/{id}")
     Call<Deck> getDeck(@Path("id") long id);
 
+    @POST("api/decks")
+    Call<Deck> createDeck(@Body Deck deck);
+
+
     //----------------------------------------------------------------------------------------------
     // Cards
 
