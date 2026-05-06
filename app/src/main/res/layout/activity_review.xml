@@ -53,6 +53,14 @@
             android:visibility="gone">
 
             <TextView
+                android:id="@+id/textKanas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="24sp" />
+
+            <TextView
                 android:id="@+id/textRomaji"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
