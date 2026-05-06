@@ -72,34 +72,30 @@
         android:background="?attr/colorOutline" />
 
     <LinearLayout
-        android:id="@+id/layoutEditButtons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_height="100dp"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonCreateCard"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:padding="16dp"
-            android:text="Create card" />
+            android:layout_gravity="center_horizontal"
+            android:drawableEnd="@drawable/ic_baseline_add_box_100"
+            android:drawableTint="?attr/colorSecondaryContainer" />
 
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonEditCards"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_weight="1"
-            android:padding="16dp"
-            android:text="Edit cards" />
+            android:layout_gravity="center_horizontal"
+            android:drawableEnd="@drawable/ic_edit_100"
+            android:drawableTint="?attr/colorSecondaryContainer" />
+
 
     </LinearLayout>
 

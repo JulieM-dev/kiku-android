@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menuProfile"
-        android:title="My Profile" />
+        android:title="My Profile"
+        android:visible="false"/>
     <item
         android:id="@+id/menuLogout"
         android:title="Log out" />
