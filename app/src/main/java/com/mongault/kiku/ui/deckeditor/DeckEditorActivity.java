@@ -66,8 +66,6 @@ public class DeckEditorActivity extends AppCompatActivity {
             clearFields();
         });
 
-        viewModel.loadDeck(deckId);
-
     }
 
     private void initDeck(Deck deck) {
