@@ -99,14 +99,16 @@ public class ReviewerActivity extends AppCompatActivity {
 
         viewModel.getReviewedCard().observe(this, this::displayCard);
 
-        viewModel.getIsRevealed().observe(this, isRevealed -> {
-            binding.layoutAnswer.setVisibility(isRevealed ? View.VISIBLE : View.GONE);
+        viewModel.getIsRevealed().observe(this, isRevealed -> {;
             binding.buttonReveal.setVisibility(isRevealed ? View.GONE : View.VISIBLE);
             binding.layoutRatingButtons.setVisibility(isRevealed ? View.VISIBLE : View.GONE);
-
-            if (isRevealed && mode.equals(ReviewMode.COMPREHENSION)) {
-                playAudio();
-            }
+            binding.textJapanese.setVisibility(View.VISIBLE);
+            binding.buttonPlayAudio.setVisibility(View.VISIBLE);
+            binding.textTranslation.setVisibility(View.VISIBLE);
+            binding.textKanas.setVisibility(View.VISIBLE);
+            binding.textRomaji.setVisibility(View.VISIBLE);
+            binding.layoutSpeed.setVisibility(View.GONE);
+            playAudio();
         });
 
         viewModel.getIsSessionFinished().observe(this, isFinished -> {
@@ -128,32 +130,36 @@ public class ReviewerActivity extends AppCompatActivity {
 
     private void displayCard(Card card) {
         binding.textProgress.setText((viewModel.getCardsCount() + " cards remaining"));
+        binding.textJapanese.setText(card.getJapanese());
+        binding.textKanas.setText(card.getKana());
+        binding.textRomaji.setText(card.getRomaji());
+        binding.textTranslation.setText(card.getTranslation());
 
         switch (mode) {
             case COMPREHENSION:
-                binding.textJapanese.setVisibility(View.GONE);
                 binding.buttonPlayAudio.setVisibility(View.VISIBLE);
                 binding.layoutSpeed.setVisibility(View.VISIBLE);
+                binding.textTranslation.setVisibility(View.GONE);
+                binding.textJapanese.setVisibility(View.GONE);
                 playAudio();
                 break;
 
             case PRONUNCIATION:
-                binding.textJapanese.setText(card.getJapanese());
                 binding.textJapanese.setVisibility(View.VISIBLE);
+                binding.textTranslation.setVisibility(View.GONE);
                 binding.buttonPlayAudio.setVisibility(View.GONE);
                 binding.layoutSpeed.setVisibility(View.GONE);
                 break;
 
             case EXPRESSION:
-                binding.textJapanese.setText(card.getTranslation());
-                binding.textJapanese.setVisibility(View.VISIBLE);
+                binding.textTranslation.setVisibility(View.VISIBLE);
                 binding.buttonPlayAudio.setVisibility(View.GONE);
                 binding.layoutSpeed.setVisibility(View.GONE);
+                binding.textJapanese.setVisibility(View.GONE);
                 break;
         }
-
-        binding.textRomaji.setText(card.getRomaji());
-        binding.textTranslation.setText(card.getTranslation());
+        binding.textKanas.setVisibility(View.GONE);
+        binding.textRomaji.setVisibility(View.GONE);
     }
 
     private void playAudio() {

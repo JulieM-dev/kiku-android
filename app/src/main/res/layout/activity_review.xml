@@ -42,34 +42,32 @@
             android:textSize="48sp"
             android:visibility="gone" />
 
-        <!-- Revealed answer section -->
-        <LinearLayout
-            android:id="@+id/layoutAnswer"
+        <TextView
+            android:id="@+id/textKanas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:color="#66FF0000"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/textRomaji"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="24sp" />
+        <TextView
+            android:id="@+id/textRomaji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:color="#66FF0000"
+            android:gravity="center"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/textTranslation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:textColor="?attr/colorOnSurface"
-                android:textSize="20sp" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textTranslation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
