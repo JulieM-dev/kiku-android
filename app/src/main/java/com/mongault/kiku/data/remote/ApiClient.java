@@ -9,13 +9,14 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import com.mongault.kiku.BuildConfig;
 import com.mongault.kiku.data.local.TokenManager;
 import com.mongault.kiku.data.remote.AuthInterceptor;
 
 // factory for ApiService
 public class ApiClient {
 
-    private static final String BASE_URL = "http://88.184.201.146:18080/";
+    private static final String BASE_URL = BuildConfig.BASE_URL;
     private static ApiService instance;
 
     public static ApiService getInstance(Context context) {
@@ -43,8 +44,9 @@ public class ApiClient {
         return instance;
     }
 
-    public static String getAudioUrl(String japaneseText) {
-        String url = BASE_URL + "api/audio/text/" + Uri.encode(japaneseText);
+    public static String getAudioUrl(String japaneseText, boolean isFemale) {
+        String gender = isFemale ? "6" : "1";
+        String url = BASE_URL + "api/audio/text/" + Uri.encode(japaneseText) + "?gender=" + gender;
         Log.d("ApiClient", "Audio URL: " + url);
         return url;
     }

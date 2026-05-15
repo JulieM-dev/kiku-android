@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel.getAuthSuccess().observe(this, authResponse -> {
             TokenManager.getInstance(this).saveToken(authResponse.getToken());
+            TokenManager.getInstance(this).saveUsername(authResponse.getUsername());
             navigateToDeckList();
         });
 

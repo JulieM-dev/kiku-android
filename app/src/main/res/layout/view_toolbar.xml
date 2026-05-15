@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorSurfaceContainer"
+    android:elevation="4dp"
+    android:paddingTop="50dp">
+
+    <TextView
+        android:id="@+id/textAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="聴く"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/textUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:paddingEnd="16dp"
+        android:textSize="14sp"
+        android:textColor="?attr/colorSecondary"
+        android:text="Username"
+        android:drawableEnd="@drawable/ic_account_circle_24"
+        android:drawablePadding="8dp"
+        android:drawableTint="?attr/colorSecondary"
+        android:clickable="true"
+        android:focusable="true" />
+
+
+
+</androidx.appcompat.widget.Toolbar>
+

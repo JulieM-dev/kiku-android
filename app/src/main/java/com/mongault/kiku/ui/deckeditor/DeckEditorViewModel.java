@@ -1,4 +1,4 @@
-package com.mongault.kiku.ui.cardeditor;
+package com.mongault.kiku.ui.deckeditor;
 
 import android.app.Application;
 import android.util.Log;
@@ -6,44 +6,37 @@ import android.util.Log;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.mongault.kiku.data.repository.CardRepository;
+import com.mongault.kiku.data.repository.DeckRepository;
 import com.mongault.kiku.data.repository.DeckRepository;
 import com.mongault.kiku.data.repository.RepositoryCallback;
-import com.mongault.kiku.model.Card;
-import com.mongault.kiku.model.CardReview;
+import com.mongault.kiku.model.Deck;
 import com.mongault.kiku.model.Deck;
 import com.mongault.kiku.model.FormalityLevel;
 
-import java.util.List;
+public class DeckEditorViewModel extends AndroidViewModel {
 
-public class CardEditorViewModel extends AndroidViewModel {
-
-    private final CardRepository cardRepository;
     private final DeckRepository deckRepository;
 
     private final MutableLiveData<Deck> deck = new MutableLiveData<>();
-    private final MutableLiveData<Card> card = new MutableLiveData<>();
     private final MutableLiveData<String> japaneseText = new MutableLiveData<>();
     private final MutableLiveData<String> translatedText = new MutableLiveData<>();
     private final MutableLiveData<String> kanaText = new MutableLiveData<>();
     private final MutableLiveData<String> romajiText = new MutableLiveData<>();
     private final MutableLiveData<FormalityLevel> formalityLevel = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> isNewCard = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> isCardSaved = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isNewDeck = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isDeckSaved = new MutableLiveData<>();
     private final MutableLiveData<String> error = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isVoiceLoading = new MutableLiveData<>();
 
 
 
-    public CardEditorViewModel(Application application) {
+    public DeckEditorViewModel(Application application) {
         super(application);
-        this.cardRepository = new CardRepository(application);
         this.deckRepository = new DeckRepository(application);
-        this.isCardSaved.setValue(false);
-        this.isNewCard.setValue(true);
+        this.isDeckSaved.setValue(false);
+        this.isNewDeck.setValue(true);
     }
 
     public void loadDeck(long deckId) {
@@ -63,38 +56,19 @@ public class CardEditorViewModel extends AndroidViewModel {
         });
     }
 
-    public void loadCard(long cardId) {
-        isLoading.setValue(true);
-        cardRepository.getCard(cardId, new RepositoryCallback<Card>() {
-            @Override
-            public void onSuccess(Card data) {
-                Log.d("CardEditorViewModel", "loadCard success for card : " + data.toString());
-                card.setValue(data);
-                isLoading.setValue(false);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                Log.d("CardEditorViewModel", "loadCard error");
-                error.setValue(errorMessage);
-                isLoading.setValue(false);
-            }
-        });
-    }
-
-    public void validateCard(Card card) {
-        if(isNewCard.getValue()) {
-            submitNewCard(card);
+    public void validateDeck(Deck deck) {
+        if(isNewDeck.getValue()) {
+            submitNewDeck(deck);
         } else {
-            submitEditCard(card);
+            submitEditDeck(deck);
         }
     }
-    public void submitNewCard(Card card) {
+    public void submitNewDeck(Deck deck) {
         isLoading.setValue(true);
-        cardRepository.createCard(deck.getValue().getId(), card, new RepositoryCallback<Card>() {
+        deckRepository.createDeck(deck, new RepositoryCallback<Deck>() {
             @Override
-            public void onSuccess(Card card) {
-                isCardSaved.setValue(true);
+            public void onSuccess(Deck deck) {
+                isDeckSaved.setValue(true);
                 isLoading.setValue(false);
             }
 
@@ -106,13 +80,13 @@ public class CardEditorViewModel extends AndroidViewModel {
         });
     }
 
-    public void submitEditCard(Card card) {
+    public void submitEditDeck(Deck deck) {
         isLoading.setValue(true);
-        Log.d("submitEditCard", "Submiting card : " + card.toString());
-        cardRepository.editCard(deck.getValue().getId(), card, new RepositoryCallback<Card>() {
+        Log.d("submitEditDeck", "Submiting deck : " + deck.toString());
+        deckRepository.editDeck(deck, new RepositoryCallback<Deck>() {
             @Override
-            public void onSuccess(Card card) {
-                isCardSaved.setValue(true);
+            public void onSuccess(Deck deck) {
+                isDeckSaved.setValue(true);
                 isLoading.setValue(false);
                 Log.d("submit answer", "Submit answer a réussi");
             }
@@ -127,21 +101,14 @@ public class CardEditorViewModel extends AndroidViewModel {
 
 
 
-    public String getAudioUrl(String textToSpeech) {
-        if (textToSpeech == null) return null;
-        return cardRepository.getAudioUrl(textToSpeech, true);
-    }
 
 
 
-    public LiveData<Card> getCard() { return card; }
     public LiveData<Deck> getDeck() { return deck; }
     public LiveData<String> getError() { return error; }
     public LiveData<Boolean> getIsLoading() { return isLoading; }
-    public LiveData<Boolean> getIsCardSaved() { return isCardSaved; }
-    public LiveData<Boolean> getIsNewCard() { return isNewCard ; }
-    public void setIsNewCard(Boolean value) { isNewCard.setValue(value);}
-    public LiveData<Boolean> getIsVoiceLoading() { return isVoiceLoading; }
-    public void setIsVoiceLoading(Boolean value) { isVoiceLoading.setValue(value); }
+    public LiveData<Boolean> getIsDeckSaved() { return isDeckSaved; }
+    public LiveData<Boolean> getIsNewDeck() { return isNewDeck ; }
+    public void setIsNewDeck(Boolean value) { isNewDeck.setValue(value);}
 
 }

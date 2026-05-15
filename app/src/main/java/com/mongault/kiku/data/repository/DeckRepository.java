@@ -1,6 +1,7 @@
 package com.mongault.kiku.data.repository;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mongault.kiku.data.remote.ApiClient;
 import com.mongault.kiku.data.remote.ApiService;
@@ -52,5 +53,28 @@ public class DeckRepository {
                 callback.onError(t.getMessage());
             }
         });
+    }
+
+    public void createDeck(Deck deck, RepositoryCallback<Deck> callback) {
+        apiService.createDeck(deck).enqueue(new Callback<Deck>() {
+            @Override
+            public void onResponse(Call<Deck> call, Response<Deck> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                    Log.d("DeckRepository", "createDeck: success creating on the deck : " + deck.toString() );
+                } else {
+                    callback.onError("Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Deck> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    public void editDeck(Deck deck, RepositoryCallback<Deck> callback) {
+        // TODO
     }
 }
