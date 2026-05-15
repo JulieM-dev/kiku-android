@@ -181,9 +181,11 @@ public class ReviewerActivity extends AppCompatActivity {
         binding.buttonGood.setOnClickListener(v -> viewModel.submitAnswer(4));
         binding.buttonEasy.setOnClickListener(v -> viewModel.submitAnswer(5));
 
-        binding.buttonSpeed075.setOnClickListener(v -> setPlaybackSpeed(0.75f));
+        binding.buttonSpeed075.setOnClickListener(v -> {
+            setPlaybackSpeed(0.75f);
+        });
         binding.buttonSpeed1.setOnClickListener(v -> setPlaybackSpeed(1.0f));
-        binding.buttonSpeed125.setOnClickListener(v -> setPlaybackSpeed(1.25f));
+        binding.buttonSpeed125.setOnClickListener(v -> viewModel.toggleIsVoiceFem());
     }
 
     private void setPlaybackSpeed(float speed) {
